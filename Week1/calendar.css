@@ -36,3 +36,30 @@
 .off-day {
    background-color:#ddd;
 }
+
+.event {
+  border-radius:5px;
+  color:#10171C;
+  padding:5px;
+  margin:5px 0;
+}
+
+.dog-walk {
+  background-color:#A6F4FF;
+}
+
+.school {
+  background-color:#BA9CE8;
+}
+
+.appointment {
+  background-color:#FF7E6D;
+}
+
+.birthday {
+  background-color:#AFFFAD;
+}
+
+.holyday {
+  background-color:#E8E193;
+}
