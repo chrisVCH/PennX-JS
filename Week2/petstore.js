@@ -35,7 +35,36 @@ function calculateFoodOrder(numAnimals, avgFood) {
  * @return a string containing the name of the most popular day of the week if there is only one most popular day, and an array of the strings containing the names of the most popular days if there are more than one that are most popular
  */
 function mostPopularDays(week) {
-    // IMPLEMENT THIS FUNCTION!
+
+    // validate input
+    if (week === null || week.length === 0) {
+      return null;
+    }
+    // get highest traffic
+    var highestTraffic = 0;
+    week.forEach(function(day) {
+      if (day.traffic > highestTraffic) {
+        highestTraffic = day.traffic;
+      }
+    });
+    // filter array with highest traffic value
+    var resultWeekdays = week.filter(function(day) {
+      if (day.traffic === highestTraffic) {
+        return true;
+      } else {
+        return false;
+      }
+    });
+    var resultDays = resultWeekdays.map(function(day) {
+      return day.name;
+    });
+    // return single day or array of days
+    if (resultDays.length === 1) {
+      return resultDays[0];
+    } else {
+      return resultDays;
+    }
+
 }
 
 
