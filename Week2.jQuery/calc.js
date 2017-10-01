@@ -52,7 +52,7 @@ var model = {
 // handlers: controls model and view
 var handlers = {
   numUpdate : function(char) {
-    // if prevOperator was '=', there is a new operation
+    // if operator was '=', there is a new operation
     //  reset everything
     if (model.data.operator === '=') {
       model.resetData();
@@ -62,8 +62,6 @@ var handlers = {
     view.display(model.data.nums[model.data.currentNum]);
   },
   operatorUpdate : function(char) {
-
-
     if (model.data.currentNum !== 0) {
       if (model.data.nums[1] === undefined) {
         view.display(model.data.nums[0]);
@@ -80,14 +78,31 @@ var handlers = {
     model.data.currentNum = 1;
 
   },
-  equalUpdate: function(){
+  equalUpdate: function() {
+
+    // if operation is possible, compute
     if (model.data.nums[1] !== undefined) {
       model.compute();
+      // save second operand in case '=' '=' input
+      model.data.nums[2] = model.data.nums[1];
       model.data.nums[0] = String(model.data.result);
       model.data.nums[1] = undefined;
       model.data.currentNum = 0;
       model.changeOperator('=');
+    } else {
+      // if '=' '=' input case
+      if (model.data.operator === '=') {
+        model.data.nums[1] = model.data.nums[2];
+        model.data.operator = model.data.prevOperator;
+        model.compute();
+        model.data.nums[0] = String(model.data.result);
+        model.data.nums[1] = undefined;
+        model.data.currentNum = 0;
+        model.changeOperator('=');
+      }
     }
+
+
     view.display(model.data.nums[model.data.currentNum]);
   },
   clearUpdate : function() {
