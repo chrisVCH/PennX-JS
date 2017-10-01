@@ -62,7 +62,7 @@ var handlers = {
     view.display(model.data.nums[model.data.currentNum]);
   },
   operatorUpdate : function(char) {
-    model.changeOperator(char);
+
 
     if (model.data.currentNum !== 0) {
       if (model.data.nums[1] === undefined) {
@@ -76,6 +76,7 @@ var handlers = {
     } else {
       view.display(model.data.nums[model.data.currentNum]);
     }
+    model.changeOperator(char);
     model.data.currentNum = 1;
 
   },
