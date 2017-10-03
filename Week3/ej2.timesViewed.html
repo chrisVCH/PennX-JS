@@ -34,14 +34,17 @@
         render() {
           // the render f() is called to render the component's HTML
 
-          // here, we access (get) the component "state"
-          return <b>{this.state.numViews}</b>;
+          // here, we access (get) the component "state" and "property"
+          return <b>Hello {this.props.name} its your 
+            {this.state.numViews} visit</b>;
         }
       }
 
       ReactDOM.render(
         // the ReactDOM.render drops the component in a HTML container
-        <TimesViewed />,
+
+        // here, we can set a component "property", ie name
+        <TimesViewed name="Gero"/>,
         document.getElementById('container')
       );
 
