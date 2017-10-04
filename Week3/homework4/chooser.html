@@ -21,20 +21,22 @@
 
     constructor(props) {
       super(props);
-
-
+      this.state = {
+        bold : this.props.bold,
+        size : this.props.size,
+      };
     }
 
 
     render() {
-
+      var weight = this.state.bold === true ? 'bold' : 'normal' ;
       return(
         <div>
         <input type="checkbox" id="boldCheckbox" hidden='true'/>
         <button id="decreaseButton" hidden='true'>-</button>
-        <span id="fontSizeSpan" hidden='true'>{this.props.size}</span>
+        <span id="fontSizeSpan" hidden='true'>{this.state.size}</span>
         <button id="increaseButton" hidden='true'>+</button>
-        <span id="textSpan">{this.props.text}</span>
+        <span id="textSpan" style={{fontWeight:weight}}>{this.props.text}</span>
         </div>
       );
     }
