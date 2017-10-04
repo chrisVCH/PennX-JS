@@ -22,7 +22,7 @@
     constructor(props) {
       super(props);
       this.state = {
-        bold : this.props.bold,
+        bold : this.props.bold === true ? true : false ,
         size : this.props.size,
         hidden : true,
       };
@@ -30,13 +30,17 @@
     toggleHidden() {
       this.setState( {hidden : !this.state.hidden} );
     };
+    toggleBold() {
+      this.setState( {bold : !this.state.bold} );
+    };
 
     render() {
-      var weight = this.state.bold === true ? 'bold' : 'normal' ;
+      var weight = this.state.bold ? 'bold' : 'normal' ;
       var size = this.state.size + 'px';
       return(
         <div>
-        <input type="checkbox" id="boldCheckbox" hidden={this.state.hidden}/>
+        <input type="checkbox" id="boldCheckbox" hidden={this.state.hidden}
+          onChange={this.toggleBold.bind(this)}/>
         <button id="decreaseButton" hidden={this.state.hidden}>-</button>
         <span id="fontSizeSpan" hidden={this.state.hidden}>{this.state.size}</span>
         <button id="increaseButton" hidden={this.state.hidden}>+</button>
