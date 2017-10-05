@@ -21,11 +21,41 @@
 
     constructor(props) {
       super(props);
+      var defMin = function(){
+        if (this.props.min > 0) {
+          return Number(this.props.min);
+        } else {
+          return 1;
+        }
+      }.bind(this);
+
+      var defMax = function(){
+        if (this.props.min > this.props.max) {
+          return Number(this.props.min);
+        } else {
+          return Number(this.props.max)
+        }
+      }.bind(this);
+
+      var defSize = function(){
+        var min = defMin();
+        var max = defMax();
+        if (this.props.size < min) {
+          return min;
+        } else if (this.props.size > max){
+          return max;
+        } else {
+          return Number(this.props.size);
+        }
+      }.bind(this);
+      
       this.state = {
         bold : this.props.bold === true ? true : false ,
-        size : Number(this.props.size),
         hidden : true,
         color : 'black',
+        min : defMin(),
+        max : defMax(),
+        size : defSize(),
       };
     };
     toggleHidden() {
@@ -47,7 +77,7 @@
       };
     };
     changeColor() {
-      if ((this.state.size == Number(this.props.min) + 1) || (this.state.size == Number(this.props.max) -1)) {
+      if ((this.state.size == this.state.min + 1) || (this.state.size == this.state.max -1)) {
         this.setState( {color: 'red'});
       } else {
         this.setState( {color: 'black'});
