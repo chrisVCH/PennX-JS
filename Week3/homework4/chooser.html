@@ -23,8 +23,9 @@
       super(props);
       this.state = {
         bold : this.props.bold === true ? true : false ,
-        size : this.props.size,
+        size : Number(this.props.size),
         hidden : true,
+        color : 'black',
       };
     };
     toggleHidden() {
@@ -33,19 +34,45 @@
     toggleBold() {
       this.setState( {bold : !this.state.bold} );
     };
+    increaseSize() {
+      if (this.state.size < this.props.max) {
+        this.setState( {size : this.state.size + 1});
+        this.changeColor();
+      };
+    };
+    decreaseSize() {
+      if (this.state.size > this.props.min) {
+        this.setState( {size : this.state.size - 1});
+        this.changeColor();
+      };
+    };
+    changeColor() {
+      if ((this.state.size == Number(this.props.min) + 1) || (this.state.size == Number(this.props.max) -1)) {
+        this.setState( {color: 'red'});
+      } else {
+        this.setState( {color: 'black'});
+      };
+    };
+    resetSize() {
+      this.setState( {size: Number(this.props.size), color: 'black'})
+    }
 
     render() {
       var weight = this.state.bold ? 'bold' : 'normal' ;
-      var size = this.state.size + 'px';
+      var size = String(this.state.size) + 'px';
+      var color = this.state.color;
       return(
         <div>
         <input type="checkbox" id="boldCheckbox" hidden={this.state.hidden}
           onChange={this.toggleBold.bind(this)}/>
-        <button id="decreaseButton" hidden={this.state.hidden}>-</button>
+        <button id="decreaseButton" hidden={this.state.hidden}
+          onClick={this.decreaseSize.bind(this)}>-</button>
         <span id="fontSizeSpan" hidden={this.state.hidden}>{this.state.size}</span>
-        <button id="increaseButton" hidden={this.state.hidden}>+</button>
-        <span id="textSpan" style={{fontWeight:weight, fontSize:size}}
+        <button id="increaseButton" hidden={this.state.hidden}
+          onClick={this.increaseSize.bind(this)}>+</button>
+        <span id="textSpan" style={{fontWeight:weight, fontSize:size, color:color}}
           onClick={this.toggleHidden.bind(this)}
+          onDoubleClick={this.resetSize.bind(this)}
           >{this.props.text}</span>
         </div>
       );
