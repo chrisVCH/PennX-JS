@@ -2,6 +2,7 @@ class FontChooser extends React.Component {
 
   constructor(props) {
     super(props);
+    // define initial state values. validate defaults
     var defMin = function(){
       if (this.props.min > 0) {
         return Number(this.props.min);
@@ -30,6 +31,7 @@ class FontChooser extends React.Component {
       }
     }.bind(this);
 
+    // state initial values
     this.state = {
       bold : this.props.bold === true ? true : false ,
       hidden : true,
@@ -39,6 +41,7 @@ class FontChooser extends React.Component {
       size : defSize(),
     };
   };
+  // handler functions
   toggleHidden() {
     this.setState( {hidden : !this.state.hidden} );
   };
@@ -68,23 +71,28 @@ class FontChooser extends React.Component {
     this.setState( {size: Number(this.props.size), color: 'black'})
   }
 
+  // render function
   render() {
     var weight = this.state.bold ? 'bold' : 'normal' ;
     var size = String(this.state.size) + 'px';
     var color = this.state.color;
     return(
       <div>
-      <input type="checkbox" id="boldCheckbox" hidden={this.state.hidden}
+      <input type="checkbox" id="boldCheckbox"
+        hidden={this.state.hidden}
         onChange={this.toggleBold.bind(this)}/>
-      <button id="decreaseButton" hidden={this.state.hidden}
+      <button id="decreaseButton"
+        hidden={this.state.hidden}
         onClick={this.decreaseSize.bind(this)}>-</button>
-      <span id="fontSizeSpan" hidden={this.state.hidden}>{this.state.size}</span>
-      <button id="increaseButton" hidden={this.state.hidden}
+      <span id="fontSizeSpan"
+        hidden={this.state.hidden}>{this.state.size}</span>
+      <button id="increaseButton"
+        hidden={this.state.hidden}
         onClick={this.increaseSize.bind(this)}>+</button>
-      <span id="textSpan" style={{fontWeight:weight, fontSize:size, color:color}}
+      <span id="textSpan"
+        style={{fontWeight:weight, fontSize:size, color:color}}
         onClick={this.toggleHidden.bind(this)}
-        onDoubleClick={this.resetSize.bind(this)}
-        >{this.props.text}</span>
+        onDoubleClick={this.resetSize.bind(this)}>{this.props.text}</span>
       </div>
     );
   }
