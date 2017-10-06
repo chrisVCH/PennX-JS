@@ -1,0 +1,64 @@
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Hello World</title>
+    <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+  </head>
+  <body>
+    <div id="container"></div>
+    <script type="text/babel">
+
+      class FilteredList extends React.Component {
+          constructor(props) {
+            // initialize and save default items in "state"
+            super(props);
+            var allItems = ["Anteater", "Bear", "Cat", "Dog"];
+            this.state = {
+              initialItems: allItems,
+              currentItems: allItems,
+            };
+          }
+          // callback. filter items with text input
+          filterList(input) {
+            var updatedList = this.state.initialItems;
+            updatedList = updatedList.filter(function(item){
+              return item.search(input.target.value) !== -1;
+            });
+            this.setState( {currentItems : updatedList});
+          }
+          // in render, pass "state" variables to child component as "props"
+          //  passing in items prop to ListItems component
+          render() {
+            return(
+              <div>
+                <input type="text" placeholder="Filter"
+                  onChange={this.filterList.bind(this)} />
+                <ListItems items={this.state.currentItems} />
+              </div>
+            );
+          }
+      };
+
+      class ListItems extends React.Component {
+        // in render, map each item as a <li>
+        render() {
+          return (
+            <ul> {this.props.items.map(function(item) {
+                  return <li key={item}> {item} </li>
+                })}
+            </ul>
+          );
+        }
+      };
+
+      // we only call Dom render on the parent component
+      ReactDOM.render(
+        <FilteredList />,
+        document.getElementById('container')
+      );
+
+    </script>
+  </body>
+</html>
