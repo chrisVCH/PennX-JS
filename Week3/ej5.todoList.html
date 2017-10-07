@@ -56,9 +56,15 @@
         super(props);
         this.state = {itemDone : false};
       }
+      handleDone() {
+        this.setState({ itemDone : true});
+      }
       render() {
+        var line = this.state.itemDone ? 'line-through' : 'none';
         return(
-          <li>{this.props.item}
+          <li onClick={this.handleDone.bind(this)}
+              style={{textDecoration:line}}
+              >{this.props.item}
           </li>
         );
       }
