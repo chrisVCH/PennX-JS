@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Hello World</title>
+    <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+  </head>
+  <body>
+    <div id="container"></div>
+    <script type="text/babel">
+
+    class TodoApp extends React.Component {
+      constructor(props) {
+        super(props);
+        this.state = {items : this.props.items, text : ''}
+      }
+      handleTxtChange(e) {
+        // use input to update text state
+        this.setState( {text : e.target.value});
+      }
+      handleAdd(e) {
+        // ads new item
+        e.preventDefault(); // prevents form submit and page reload
+        this.setState( {items: this.state.items.concat(this.state.text),
+                        text: ' '});
+      }
+      render() {
+          return(
+            <div>
+              <TodoList items={this.state.items}/>
+              <form>
+                <input onChange={this.handleTxtChange.bind(this)}
+                  value={this.state.text}/>
+                <button onClick={this.handleAdd.bind(this)}>Add</button>
+              </form>
+            </div>
+          );
+      }
+    };
+    class TodoList extends React.Component {
+      render() {
+        return(
+          <ul>
+            {this.props.items.map(function(i, index){
+              return <TodoItem key={index} item={i} />
+            })}
+          </ul>
+        );
+      }
+
+    };
+    class TodoItem extends React.Component {
+      constructor(props) {
+        super(props);
+        this.state = {itemDone : false};
+      }
+      render() {
+        return(
+          <li>{this.props.item}
+          </li>
+        );
+      }
+    };
+    ReactDOM.render(
+      <TodoApp items={['item1','item2','item3']} />,
+      document.getElementById('container')
+    );
+
+    </script>
+  </body>
+</html>
