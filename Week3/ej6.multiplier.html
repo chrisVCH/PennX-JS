@@ -10,31 +10,56 @@
   <body>
     <div id="container"></div>
     <script type="text/babel">
-
+    /**
+    * this example shows how components can pass functions (actions)
+    * from parent to child as props
+    **/
       class Multiplier extends React.Component {
-
+        constructor(props) {
+          super(props);
+          this.state = { input1: 0, input2: 0, product: 0 };
+          // bind to pass action from parent to child
+          this.multiply = this.multiply.bind(this);
+        }
+        // multiply is defined in the parent, pass to childrens, and used by them
+        // multiply changes parent state
+        multiply(id, val) {
+          if (id == 1) {
+            this.setState( {input1: val, product: this.state.input2 * val});
+          } else if (id == 2) {
+            this.setState( {input2: val, product: this.state.input1 * val});
+          }
+        }
         render() {
+          // at render, the action is passed from one component to another as a prop
           return(
             <div>
               <h1>Enter two numbers to multiply:</h1>
-              <NumberInputField id="1"/>
-              <NumberInputField id="2"/>
-              <OutputField />
+              <NumberInputField id="1" action={this.multiply}/>
+              <NumberInputField id="2" action={this.multiply}/>
+              <OutputField product={this.state.product}/>
             </div>
           );
         }
       }
       class NumberInputField extends React.Component {
+        constructor(props) {
+          super(props);
+        }
+        // at children we can use the action
+        handleChange(e) {
+          this.props.action(this.props.id, e.target.value);
+        }
         render() {
           return (
-            <input></input>
+            <input onChange={this.handleChange.bind(this)}></input>
           );
         }
       }
       class OutputField extends React.Component {
         render(){
           return (
-            <div> The result is: </div>
+            <div> The result is {this.props.product}</div>
           );
         }
       }
