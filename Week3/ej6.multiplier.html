@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Hello World</title>
+    <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+  </head>
+  <body>
+    <div id="container"></div>
+    <script type="text/babel">
+
+      class Multiplier extends React.Component {
+
+        render() {
+          return(
+            <div>
+              <h1>Enter two numbers to multiply:</h1>
+              <NumberInputField id="1"/>
+              <NumberInputField id="2"/>
+              <OutputField />
+            </div>
+          );
+        }
+      }
+      class NumberInputField extends React.Component {
+        render() {
+          return (
+            <input></input>
+          );
+        }
+      }
+      class OutputField extends React.Component {
+        render(){
+          return (
+            <div> The result is: </div>
+          );
+        }
+      }
+      ReactDOM.render(
+        <Multiplier />,
+        document.getElementById('container')
+      );
+
+    </script>
+  </body>
+</html>
