@@ -1,12 +1,21 @@
 import React, { Component } from 'react';
 
 class AddList extends Component {
-
+  constructor(props) {
+    super(props);
+    this.state = {text : ''};
+  }
 
   handleSubmit(e) {
       e.preventDefault(); // this prevents the page from reloading -- do not delete this line!
 
       // Implement the rest of this function here!
+      var text = this.refs.id.value;
+      // using setState callback function, to execute after state is updated
+      this.setState({text: text}, function(){
+          this.props.addList(this.state);
+      });
+      this.refs.id.value = '';
   }
 
   render() {
