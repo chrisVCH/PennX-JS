@@ -37,6 +37,12 @@ class App extends Component {
    */
   handleAddItem(s) {
       // Implement this function!
+      // s = { newItem : {name : listName, value: itemValue}}
+      var newItems = Object.assign({}, this.state.items);
+      newItems[s.newItem.name].push({name : s.newItem.value});
+
+      this.setState( {items : Object.assign(this.state.items, newItems)});
+
   }
 
   /**

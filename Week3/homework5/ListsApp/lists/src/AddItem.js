@@ -13,23 +13,30 @@ class AddItem extends Component {
       e.preventDefault(); // this prevents the page from reloading -- do not delete this line!
 
       // Implement the rest of this function here!
+      var newItemAux = {};
+      newItemAux.name = this.props.idName;
+      newItemAux.value = this.refs.id.value;
+      this.setState( {newItem : newItemAux}, function() {
+        this.props.addItem(this.state);
+      });
+      this.refs.id.value = '';
   }
-    
+
 
   render() {
     var divName = 'add' + this.props.idName;
     return (
       <div className='addItemDiv'>
-      <h4>Add {this.props.idName}</h4>
-      <form ref='form' onSubmit={this.handleSubmit.bind(this)}>
-      <div id={divName} ref={divName}>
-        <label>Name</label><br />
-        <input type='text' ref='id' />
-        </div>
-        <br />
-        <input type='submit' value='Submit' />
-        <br />
-      </form>
+        <h4>Add {this.props.idName}</h4>
+        <form ref='form' onSubmit={this.handleSubmit.bind(this)}>
+          <div id={divName} ref={divName}>
+            <label>Name</label><br />
+            <input type='text' ref='id' />
+          </div>
+          <br />
+          <input type='submit' value='Submit' />
+          <br />
+        </form>
       </div>
     );
   }
