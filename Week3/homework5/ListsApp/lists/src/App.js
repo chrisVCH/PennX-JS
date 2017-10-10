@@ -21,7 +21,8 @@ class App extends Component {
    */
   handleAddList(s) {
       // Implement this function!
-      console.log(s.text);
+      this.setState( { lists: this.state.lists.concat(s.text),
+                        items: });
   }
 
   /**
