@@ -21,8 +21,10 @@ class App extends Component {
    */
   handleAddList(s) {
       // Implement this function!
+      var textObject = {};
+      textObject[s.text] = [];
       this.setState( { lists: this.state.lists.concat(s.text),
-                        items: });
+                        items: Object.assign(this.state.items, textObject)});
   }
 
   /**
