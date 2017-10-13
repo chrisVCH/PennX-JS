@@ -8,7 +8,12 @@ class ListItem extends Component {
     }
 
     handleClick() {
-	// Implement this function!
+      // Toggles state color beetween black and grey
+      if (this.state.color == 'black') {
+        this.setState( {color : 'grey'});
+      } else {
+        this.setState( {color : 'black'});
+      }
     }
 
   render() {
@@ -25,4 +30,3 @@ class ListItem extends Component {
 
 }
 export default ListItem;
-
