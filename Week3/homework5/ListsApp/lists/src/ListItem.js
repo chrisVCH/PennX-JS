@@ -3,14 +3,14 @@ import React, { Component } from 'react';
 class ListItem extends Component {
 
     constructor(props) {
-	super(props);
-	this.state = { color: 'black' };
+      super(props);
+	     this.state = { color: 'black' };
     }
 
     handleClick() {
-      // Toggles state color beetween black and grey
-      if (this.state.color == 'black') {
-        this.setState( {color : 'grey'});
+      // Toggles state color beetween black and gray
+      if (this.state.color === 'black') {
+        this.setState( {color : 'gray'});
       } else {
         this.setState( {color : 'black'});
       }
