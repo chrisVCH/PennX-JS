@@ -10,7 +10,10 @@ import List from './List.js';
 import ListItem from './ListItem.js';
 import Lists from './Lists.js';
 
+import { configure } from 'enzyme';
+import Adapter from 'enzyme-adapter-react-16';
 
+configure({ adapter: new Adapter() });
 
 /**************************/
 /**** Component Tests *****/
@@ -152,7 +155,7 @@ describe('Interaction tests', () => {
 	it('After entering name and clicking button in AddList, Lists should have one List element', () => {
 		var wrapper = mount(<App />);
 		var addList = wrapper.find('AddList');
-		addList.find('#newID').get(0).value = 'DOGS';
+		addList.find('#newID').instance().value = 'DOGS';
 		addList.find('form').simulate('submit');
 		expect(wrapper.find('Lists').find('List'), 'There should be one List component within Lists').length(1);
 
@@ -165,11 +168,11 @@ describe('Interaction tests', () => {
 	it('After adding one List, should be possible to add another', () => {
 		var wrapper = mount(<App />);
 		var addList = wrapper.find('AddList');
-		addList.find('#newID').get(0).value = 'DOGS';
+		addList.find('#newID').instance().value = 'DOGS';
 		addList.find('form').simulate('submit');
 
 		addList = wrapper.find('AddList');
-		addList.find('#newID').get(0).value = 'CATS';
+		addList.find('#newID').instance().value = 'CATS';
 		addList.find('form').simulate('submit');
 
 
@@ -177,7 +180,7 @@ describe('Interaction tests', () => {
 
 		var lists = wrapper.find('Lists').find('List');
 		//console.log(lists.nodes[1].props);
-		// make sure they don't change the name of the props!
+    // make sure they don't change the name of the props!
 		expect(lists.nodes[1].props.name == 'CATS', "'name' prop in second List component is incorrect").equals(true);
 
 	    });
@@ -185,7 +188,7 @@ describe('Interaction tests', () => {
 	it('Should be possible to add item name to List using form', () => {
 		var wrapper = mount(<App />);
 		var addList = wrapper.find('AddList');
-		addList.find('#newID').get(0).value = 'DOGS';
+		addList.find('#newID').instance().value = 'DOGS';
 		addList.find('form').simulate('submit');
 		//expect(wrapper.find('Lists').find('List')).length(1);
 
@@ -203,7 +206,7 @@ describe('Interaction tests', () => {
 		  check that the List now has a ListItem
 		 */
 		var addItem = list.find('AddItem');
-		addItem.find("input[type='text']").get(0).value = 'Snoopy';
+		addItem.find("input[type='text']").instance().value = 'Snoopy';
 		addItem.find('form').simulate('submit');
 
 		list = wrapper.find('Lists').find('List');
@@ -216,18 +219,18 @@ describe('Interaction tests', () => {
 	it('Should be possible to add more than one item name to List using form', () => {
 		var wrapper = mount(<App />);
 		var addList = wrapper.find('AddList');
-		addList.find('#newID').get(0).value = 'DOGS';
+		addList.find('#newID').instance().value = 'DOGS';
 		addList.find('form').simulate('submit');
 
 		var list = wrapper.find('Lists').find('List');
 
 		var addItem = list.find('AddItem');
-		addItem.find("input[type='text']").get(0).value = 'Snoopy';
+		addItem.find("input[type='text']").instance().value = 'Snoopy';
 		addItem.find('form').simulate('submit');
 
 		list = wrapper.find('Lists').find('List');
 		addItem = list.find('AddItem');
-		addItem.find("input[type='text']").get(0).value = 'Lola';
+		addItem.find("input[type='text']").instance().value = 'Lola';
 		addItem.find('form').simulate('submit');
 
 
@@ -245,13 +248,13 @@ describe('Interaction tests', () => {
 	it('Should be possible to change list item color from black to gray by clicking on text once', () => {
 		var wrapper = mount(<App />);
 		var addList = wrapper.find('AddList');
-		addList.find('#newID').get(0).value = 'DOGS';
+		addList.find('#newID').instance().value = 'DOGS';
 		addList.find('form').simulate('submit');
 
 		var list = wrapper.find('Lists').find('List');
 
 		var addItem = list.find('AddItem');
-		addItem.find("input[type='text']").get(0).value = 'Snoopy';
+		addItem.find("input[type='text']").instance().value = 'Snoopy';
 		addItem.find('form').simulate('submit');
 
 		var listItem = wrapper.find('Lists').find('List').find('ListItem');
@@ -266,13 +269,13 @@ describe('Interaction tests', () => {
 	it('Should be possible to change list item color from gray back to black by clicking on text twice', () => {
 		var wrapper = mount(<App />);
 		var addList = wrapper.find('AddList');
-		addList.find('#newID').get(0).value = 'DOGS';
+		addList.find('#newID').instance().value = 'DOGS';
 		addList.find('form').simulate('submit');
 
 		var list = wrapper.find('Lists').find('List');
 
 		var addItem = list.find('AddItem');
-		addItem.find("input[type='text']").get(0).value = 'Snoopy';
+		addItem.find("input[type='text']").instance().value = 'Snoopy';
 		addItem.find('form').simulate('submit');
 
 		var listItem = wrapper.find('Lists').find('List').find('ListItem');
@@ -291,12 +294,12 @@ describe('Interaction tests', () => {
 	it('Should be possible to add item values to List using form', () => {
 		var wrapper = mount(<App />);
 		var addList = wrapper.find('AddList');
-		addList.find('#newID').get(0).value = 'DOGS';
+		addList.find('#newID').instance().value = 'DOGS';
 		addList.find('form').simulate('submit');
 		var list = wrapper.find('Lists').find('List');
 		var addItem = list.find('AddItem');
 		// enter the name
-		addItem.find("input[type='text']").get(0).value = 'Snoopy';
+		addItem.find("input[type='text']").instance().value = 'Snoopy';
 		// click Add Value button
 		var button = addItem.find("button");
 		//console.log(button);
@@ -306,7 +309,7 @@ describe('Interaction tests', () => {
 		//console.log(div);
 		//console.log(div.find("input[type='text']"));
 		//console.log(div.find(".addItemText"))
-		//div.find(".addItemText").get(0).value = 'breed';
+		//div.find(".addItemText").instance().value = 'breed';
 		//div.find(".addItemText").get(1).value = 'beagle';
 		//console.log(addItem.find('input').length);
 
@@ -315,7 +318,7 @@ describe('Interaction tests', () => {
 		console.log(div.find('input').length);
 
 
-		//addItem.find("input").get(0).value = 'breed';
+		//addItem.find("input").instance().value = 'breed';
 		//addItem.find("input").get(1).value = 'beagle';
 
 
