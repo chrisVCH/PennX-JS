@@ -13,6 +13,9 @@ app.use('/login', (req, res) => {
   res.send('This is the login page');
 });
 
+// a middleware serving static files, from the 'files' directory
+app.use('/static', express.static('files'));
+
 // finally, a default page, in case the others aren't matched
 app.use( /*default*/ (req, res) => {
 
