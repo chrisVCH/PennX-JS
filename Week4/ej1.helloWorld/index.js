@@ -1,14 +1,18 @@
 var express = require('express');
 var app = express();
 
-// express routing examples
+/**
+* express routing examples
+**/
 
-// this is a middleware function. it runs with /about URI
+// this is a route.
+// when client request /about URI, a specific callback f() is called
+// the callback f() is called 'middleware'
 app.use('/about', (req, res) => {
   res.send('This is the about page');
 });
 
-// this is another middleware function, at /login URI
+// this is another route, at /login URI, with another callback
 app.use('/login', (req, res) => {
   res.send('This is the login page');
 });
