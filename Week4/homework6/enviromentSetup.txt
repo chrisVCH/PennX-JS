@@ -1,0 +1,9 @@
+1. install node from nodejs.org
+2. > npm install npm -g
+3. create new folder and cd to it
+4. > npm init
+5. > npm install express --save
+6. > npm install mongoose --save
+7. install mongodb from mongodb.com
+8. run mongod.exe from programfiles folder
+9. copy gitignore file to folder
