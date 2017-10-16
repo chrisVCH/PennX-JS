@@ -7,3 +7,6 @@
 7. install mongodb from mongodb.com
 8. run mongod.exe from programfiles folder
 9. copy gitignore file to folder
+10. > node index.js
+
+11. if using http POSTs > npm install body-parser
