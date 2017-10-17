@@ -23,12 +23,13 @@ app.use('/create', (req, res) => {
       res.type('html').status(500);
       res.send('Error: ' + err);
     } else {
+      res.type('html').status(200);
       res.send('Person saved!');
     }
   })
 });
 
-// query all entries in DB
+// select all entries in DB
 app.use('/all', (req, res) => {
   // use person schema
   Person.find( (err, allPeople) => {
@@ -39,12 +40,13 @@ app.use('/all', (req, res) => {
       res.type('html').status(200);
       res.send('There are no people!')
     } else {
-      res.send(allPeople);
+      res.type('html').status(200);
+      res.json(allPeople);
     }
   })
 })
 
-// query one entry in DB
+// select one entry in DB
 app.use('/person', (req, res) => {
   var searchName = req.query.name;
   // Schema.findOne(queryString, callback)
@@ -56,10 +58,34 @@ app.use('/person', (req, res) => {
       res.type('html').status(200);
       res.send('No person named ' + searchName);
     } else {
-      res.send(person);
+      res.type('html').status(200);
+      res.json(person);
     }
   })
 })
+
+// update one entry in DB
+app.use('/update', (req,res) => {
+  var searchName = req.body.name;
+
+  // find person
+  Person.findOne( {name: searchName}, (err, person) => {
+    if (err) {
+      res.type('html').status(500);
+      res.send('Error: ' + err);
+    } else if (person.length === 0) {
+      res.type('html').status(200);
+      res.send('No person named ' + searchName);
+    } else {
+      // update value in person document
+      person.age = req.body.age;
+      res.type('html').status(200);
+      res.write(searchName + ' updated to age: ' + req.body.age);
+      res.end();
+    }
+  })
+})
+
 
 app.listen(3000, () => {
   console.log('Listening on port 3000');
