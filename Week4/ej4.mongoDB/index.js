@@ -9,11 +9,22 @@ var Person = require('./schemas/Person.js');
 
 app.use('/public', express.static('files'));
 
-app.use('/handleForm', (req, res) => {
-  var name = req.body.name;
-  var lastName = req.body.lastname;
-  res.write('Hello ' + name + ' ' + lastName);
-  res.end();
+app.use('/create', (req, res) => {
+  // create new person, from Person.js, passing in values
+  var newPerson = new Person( {
+    name: req.body.name,
+    age: req.body.age,
+  });
+
+  //save new person to DB
+  newPerson.save( (err) => {
+    if (err) {
+      res.type('html').status(500);
+      res.send('Error: ' + err);
+    } else {
+      res.send('Person saved!');
+    }
+  })
 });
 
 
