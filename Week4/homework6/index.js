@@ -58,7 +58,20 @@ app.use('/createAnimal', (req, res) => {
 // finds toy with a given id
 // query: /findToy?id=1234
 app.use('/findToy', (req,res) => {
-
+	var toyId = req.query.id;
+	//Schema.findOne(queryString, callback)
+	Toy.findOne({id: toyId}, (err, toy) => {
+		if (err) {
+      res.type('html').status(500);
+      res.send('Error: ' + err);
+    } else if (toy == null) {
+      res.type('html').status(200);
+      res.json({});
+    } else {
+      res.type('html').status(200);
+      res.json(toy);
+    }
+	})
 });
 
 // finds animals
