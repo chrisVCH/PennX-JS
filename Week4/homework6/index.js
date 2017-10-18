@@ -77,6 +77,37 @@ app.use('/findToy', (req,res) => {
 // finds animals
 // query /findAnimals?species=Dog&trait=loyal&gender=female
 app.use('/findAnimals', (req,res) => {
+	// find every animal with query species and gender
+	// and with the query trait among its traits
+
+	var query = {};
+	// with a proyection, we can define which fields return from the query
+	// and wich fields we leave out
+	var projection = { _id: 0, __v:0, traits: 0};
+
+	if (req.query.species) query.species = req.query.species;
+	if (req.query.trait) query.traits = req.query.trait;
+	if (req.query.gender) query.gender = req.query.gender;
+
+	Animal.find(query, projection, (err, results) => {
+		if (err) {
+      res.type('html').status(500);
+      res.send('Error: ' + err);
+    } else if (results == null) {
+      res.type('html').status(200);
+      res.json({});
+    } else {
+			// if query is empty, then return empty object
+			if (Object.keys(query).length === 0) {
+				res.type('html').status(200);
+	      res.json({});
+			} else {
+	      res.type('html').status(200);
+	      res.json(results);
+			}
+    }
+	})
+
 
 });
 
