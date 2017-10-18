@@ -114,7 +114,14 @@ app.use('/findAnimals', (req,res) => {
 // finds animals under a certain age
 // query /animalsYoungerThan?age=12
 app.use('/animalsYoungerThan', (req,res) => {
-
+	/*
+	This API finds all Animals in the “animals” collection that have an age that is less than (but not equal to!) the age parameter.
+	The return value is an object that has two properties:
+	 “count”: the number of Animals whose age is less than the age> parameter.
+	 “names”: an array containing the names of the Animals whose age is less than the age> parameter (these can be arranged in any order in the array)
+	If there are no Animals that have an age less than the age> parameter, then the API should return an object that has a “count” property set to 0, but no “names” property
+	If the age> parameter is unspecified or non-numeric, then the API should return an empty object
+	*/
 });
 
 // calculates price of a sum of toys
