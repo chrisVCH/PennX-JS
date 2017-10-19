@@ -122,6 +122,27 @@ app.use('/animalsYoungerThan', (req,res) => {
 	If there are no Animals that have an age less than the age> parameter, then the API should return an object that has a “count” property set to 0, but no “names” property
 	If the age> parameter is unspecified or non-numeric, then the API should return an empty object
 	*/
+	var query = {age: {$lt: req.query.age}}
+	Animal.find(query, (err, results) => {
+		if (err) {
+      res.type('html').status(500);
+      res.send('Error: ' + err);
+    } else if (results == null) {
+      res.type('html').status(200);
+      res.json({});
+    } else {
+			// if query is empty, then return empty object
+			if (Object.keys(query).length === 0) {
+				res.type('html').status(200);
+	      res.json({});
+			} else {
+	      res.type('html').status(200);
+
+				// parse results to {count: count, names: []}
+				res.json(results);
+			}
+    }
+	})
 });
 
 // calculates price of a sum of toys
