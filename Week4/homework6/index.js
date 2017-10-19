@@ -114,16 +114,11 @@ app.use('/findAnimals', (req,res) => {
 // finds animals under a certain age
 // query /animalsYoungerThan?age=12
 app.use('/animalsYoungerThan', (req,res) => {
-	/*
-	This API finds all Animals in the “animals” collection that have an age that is less than (but not equal to!) the age parameter.
-	The return value is an object that has two properties:
-	 “count”: the number of Animals whose age is less than the age> parameter.
-	 “names”: an array containing the names of the Animals whose age is less than the age> parameter (these can be arranged in any order in the array)
-	If there are no Animals that have an age less than the age> parameter, then the API should return an object that has a “count” property set to 0, but no “names” property
-	If the age> parameter is unspecified or non-numeric, then the API should return an empty object
-	*/
-	var query = {age: {$lt: req.query.age}}
-	Animal.find(query, (err, results) => {
+
+	var query = {};
+	if (Number(req.query.age)>0) query = {age: {$lt: req.query.age}};
+
+	Animal.find(query, {_id: 0, name: 1}, (err, results) => {
 		if (err) {
       res.type('html').status(500);
       res.send('Error: ' + err);
@@ -139,7 +134,18 @@ app.use('/animalsYoungerThan', (req,res) => {
 	      res.type('html').status(200);
 
 				// parse results to {count: count, names: []}
-				res.json(results);
+				var parsedResult = {};
+				var count = results.length;
+				parsedResult.count = count;
+
+				var names = [];
+				if (count > 0) {
+					 names = results.map((element) => {
+						 return element.name;
+					});
+					parsedResult.names = names;
+				};
+				res.json(parsedResult);
 			}
     }
 	})
