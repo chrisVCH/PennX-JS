@@ -155,6 +155,53 @@ app.use('/animalsYoungerThan', (req,res) => {
 // query /calculatePrice?id[0]=123&qty[0]=2&id[1]=456&qty[1]=3
 app.use('/calculatePrice', (req,res) => {
 
+	// validate url query and write mongo query
+	var ids = req.query.id;
+	var qtys = req.query.qty;
+
+	// if empty query
+	if (!ids || !qtys) {
+		res.json({});
+		return;
+	}
+	// if the number of ids and qtys dont match
+	if (ids.length !== qtys.length) {
+		res.json({});
+		return;
+	}
+
+	// filter ids where qty isnt valid
+	var idsFiltered = [];
+	var qtysFiltered = [];
+
+	ids.forEach((id, index) => {
+		if (qtys[index] > 0 && !Number.isNaN(qtys[index])) {
+			idsFiltered.push(id);
+			qtysFiltered.push(qtys[index]);
+		};
+	});
+
+	// sumarize repited ids
+	idsFiltered.forEach((id, index) => {
+		// if we are at a repeated id, then we can find that id in a smaller index
+		var firstIndex = idsFiltered.indexOf(id);
+		if(index > firstIndex) {
+			// add the repeated qty to the first index cuantity
+			qtysFiltered[firstIndex] = String(Number(qtysFiltered[firstIndex]) + Number(qtysFiltered[index]));
+		}
+	})
+
+	console.log(idsFiltered);
+	console.log(qtysFiltered);
+	// perform find
+	Toy.find({id: {$in: idsFiltered}}, (err, results) =>{
+		res.json(results);
+	})
+	// validate results
+
+	// parse results and calculate totals
+
+	// send response
 });
 
 app.listen(3000, () => {
