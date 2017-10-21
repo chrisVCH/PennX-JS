@@ -187,10 +187,7 @@ app.use('/calculatePrice', (req,res) => {
 	});
 
 
-<<<<<<< HEAD
 	// perform find
-=======
->>>>>>> 6649374b7399d62a1faf693bd880ac8eb380a7e3
 	Toy.find({id: {$in: idsFiltered}}, {_id: 0}, (err, results) => {
 		var response = {
 									items: [],
@@ -224,11 +221,7 @@ app.use('/calculatePrice', (req,res) => {
 					response.totalPrice = String(Number(response.totalPrice) + subtotal);
 				});
 
-<<<<<<< HEAD
 				// send response
-=======
-
->>>>>>> 6649374b7399d62a1faf693bd880ac8eb380a7e3
 				res.json(response);
 			}
 		}
