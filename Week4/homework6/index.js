@@ -4,11 +4,6 @@ var app = express();
 var Animal = require('./Animal.js');
 var Toy = require('./Toy.js');
 
-/*
-app.use('/', (req, res) => {
-	res.json({ msg : 'It works!' });
-});
-*/
 
 // create new entry and save to DB
 // http://localhost:3000/createToy?id=1234&name=toy1&price=2.2
@@ -189,19 +184,36 @@ app.use('/calculatePrice', (req,res) => {
 			// add the repeated qty to the first index cuantity
 			qtysFiltered[firstIndex] = String(Number(qtysFiltered[firstIndex]) + Number(qtysFiltered[index]));
 		}
-	})
+	});
 
 	console.log(idsFiltered);
 	console.log(qtysFiltered);
 	// perform find
-	Toy.find({id: {$in: idsFiltered}}, (err, results) =>{
-		res.json(results);
-	})
-	// validate results
 
-	// parse results and calculate totals
+	Toy.find({id: {$in: idsFiltered}}, (err, results) => {
+		var result = {
+									totalPrice: 0,
+									items: []
+								};
 
-	// send response
+		//validate results
+		if (err) {
+			res.type('html').status(500);
+			res.send('Error: ' + err);
+		} else if (results == null) {
+			res.type('html').status(200);
+			res.json({});
+		} else {
+			// if query is empty, then return empty object
+			if (idsFiltered.length === 0) {
+				res.type('html').status(200);
+				res.json(result);
+			} else {
+				// parse results and calculate totals
+				res.json(results);
+			}
+		}
+	});
 });
 
 app.listen(3000, () => {
