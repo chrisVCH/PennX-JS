@@ -190,10 +190,10 @@ app.use('/calculatePrice', (req,res) => {
 	console.log(qtysFiltered);
 	// perform find
 
-	Toy.find({id: {$in: idsFiltered}}, (err, results) => {
-		var result = {
-									totalPrice: 0,
-									items: []
+	Toy.find({id: {$in: idsFiltered}}, {_id: 0}, (err, results) => {
+		var response = {
+									items: [],
+									totalPrice: 0
 								};
 
 		//validate results
@@ -207,10 +207,24 @@ app.use('/calculatePrice', (req,res) => {
 			// if query is empty, then return empty object
 			if (idsFiltered.length === 0) {
 				res.type('html').status(200);
-				res.json(result);
+				res.json(response);
 			} else {
 				// parse results and calculate totals
-				res.json(results);
+				results.forEach((result) => {
+					var idIndex = idsFiltered.indexOf(result.id);
+					var qty = qtysFiltered[idIndex];
+					var subtotal = qty * result.price;
+					var item = {
+											item: result.id,
+											qty: qty,
+											subtotal: subtotal,
+					};
+					response.items.push(item);
+					response.totalPrice = String(Number(response.totalPrice) + subtotal);
+				});
+
+
+				res.json(response);
 			}
 		}
 	});
